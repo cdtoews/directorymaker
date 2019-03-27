@@ -43,7 +43,7 @@ while(true){
   }
   $pre_pages++;
 }
-echo "prepages: " . $pre_pages . "\n";
+// echo "prepages: " . $pre_pages . "\n";
 
 $post_pages = 0;
 while(true){
@@ -52,7 +52,7 @@ while(true){
   }
   $post_pages++;
 }
-echo "postpages: " . $post_pages . "\n";
+// echo "postpages: " . $post_pages . "\n";
 
 
 
@@ -202,7 +202,7 @@ if (($handle = fopen($content_directory . "directory.csv", "r")) !== FALSE) {
   }
   
   
-  echo "total number of rows: " . $row . "\n";
+  // echo "total number of rows: " . $row . "\n";
   fclose($handle);
   
   //actually make the trial pdf
@@ -210,7 +210,7 @@ if (($handle = fopen($content_directory . "directory.csv", "r")) !== FALSE) {
 
   //write_log($dir_data);
   $dir_pages = $dir_fpage_number;
-  write_log("dir folded pages total" . $dir_pages);
+  // write_log("dir folded pages total" . $dir_pages);
 }
 
 
@@ -221,11 +221,11 @@ $printed_pages = $pieces_of_paper * 2;
 $notes_fpages = $total_fpages - $content_fpages;
 
 
-
-echo "content folded pages =" . $content_fpages . "\n";
-echo "pieces of paper =" . $pieces_of_paper . "\n";
-echo "total folded pages = " . $total_fpages . "\n";
-echo "notes pages= " . $notes_fpages . "\n";
+// 
+// echo "content folded pages =" . $content_fpages . "\n";
+// echo "pieces of paper =" . $pieces_of_paper . "\n";
+// echo "total folded pages = " . $total_fpages . "\n";
+// echo "notes pages= " . $notes_fpages . "\n";
 
 
 // ---------------------------------------------------------------------
@@ -299,6 +299,8 @@ foreach ($ordered_pages as $ordered_page) {
   if(array_key_exists("pre",$ordered_page )){
     //pre page 
     $page_html = file_get_contents($content_directory . "pre" . $ordered_page["pre"] . ".html");
+    // write_log("====================pre:===================================");
+    // write_log($page_html);
   }elseif(array_key_exists("post",$ordered_page )){
     // write_log("--------------ordered page that contains post---------------");
     // write_log($ordered_page);
