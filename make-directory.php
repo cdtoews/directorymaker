@@ -9,9 +9,25 @@ if ( ! function_exists('write_log')) {
       }
    }
 }
+
+if ( ! function_exists('get_xy')) {
+   function get_xy ( $fpage_number, $current_column = 1 )  {
+     global $side_margins,  $column_width, $paper_width, $middle_margin, $top_margin;
+     if($fpage_number % 2 == 0){ 
+       //even fpage number we are the left hand side of paper page
+       $column_x = $side_margins + ($column_width * ($current_column - 1));
+     }else{ 
+       //we are on the right hand side of paaper page 
+       $column_x = ($paper_width / 2) + ($middle_margin /2) + ($column_width * ($current_column - 1));
+     } 
+     $column_y = $top_margin;
+     return array($column_x, $column_y);
+   }
+}
+
   
   
-  
+$content_directory = __DIR__."/content/";
 require_once('vendor/autoload.php');
 
 $columns_per_page = 2;
@@ -22,7 +38,7 @@ $font_size = 8;
 //let's find number of pre pages 
 $pre_pages = 0;
 while(true){
-  if(!file_exists("content/pre" . ($pre_pages + 1) . ".html")){
+  if(!file_exists($content_directory .  "pre" . ($pre_pages + 1) . ".html")){
     break;
   }
   $pre_pages++;
@@ -31,7 +47,7 @@ echo "prepages: " . $pre_pages . "\n";
 
 $post_pages = 0;
 while(true){
-  if(!file_exists("content/post" . ($post_pages + 1) . ".html")){
+  if(!file_exists($content_directory . "post" . ($post_pages + 1) . ".html")){
     break;
   }
   $post_pages++;
@@ -41,12 +57,12 @@ echo "postpages: " . $post_pages . "\n";
 
 
 
-$dir_pages = 7;
+
 
 $mm_conv = 25.4; // mm per inch 
 $side_margins = .75 * $mm_conv;
-$top_margin = .75 * $mm_conv;
-$bottom_margin = .75 * $mm_conv;
+$top_margin = .5 * $mm_conv;
+$bottom_margin = .25 * $mm_conv;
 $middle_margin = 1.25 * $mm_conv;
 $paper_width = 11 * $mm_conv;
 $paper_height = 8.5 * $mm_conv;
@@ -54,18 +70,36 @@ $page_height = $paper_height;
 $page_width = $paper_width / 2 ;
 $carriage_return = "<br>"; // possibly <br>
 
-$column_width = ($paper_width - ($side_margins * 2)) / ($columns_per_page * 2);
+$column_width = ($paper_width - ($side_margins * 2) - $middle_margin) / ($columns_per_page * 2);
+$html_page_width = ($paper_width - ($side_margins * 2) - $middle_margin) / 2;
+
+class MYPDF extends TCPDF {
+
+		//Page header
+		public function Header() {
+			$header_text = "";
+
+			if ($header_text != "") {
+				// Set font
+				$this->SetFont('helvetica', 'B', 15);
+
+				$this->Cell(0, 15, $header_text, 0, false, 'C', 0, '', 0, false, 'M', 'B');
+			}
+		}
+	}//end of class 
+
+
 
 //let's make trial pages to see how many will be taken up by directory content 
 $pageLayout = array($paper_width, $paper_height);
-$trial_pdf = new TCPDF("", PDF_UNIT, $pageLayout, true, 'UTF-8', false);
+$trial_pdf = new MYPDF("", PDF_UNIT, $pageLayout, true, 'UTF-8', false);
 $trial_pdf->SetFont('helvetica', '', $font_size);
 $trial_pdf->SetMargins($side_margins, $top_margin, $side_margins, true);
 $trial_pdf->SetAutoPageBreak(TRUE, $bottom_margin);
 $trial_pdf->AddPage();
 
 $current_column = 1;
-$content_fpage_number = 1; //if this is odd, we are on the right hand side 
+$dir_fpage_number = 1; //if this is odd, we are on the right hand side 
 
 
 $dir_data = array();// array of pages => array of columns => array of entries
@@ -73,7 +107,7 @@ $page_data = array();
 $column_data = array();
 //now we will loop through directory and put into pages/columns 
 $row = 1;
-if (($handle = fopen("content/directory.csv", "r")) !== FALSE) {
+if (($handle = fopen($content_directory . "directory.csv", "r")) !== FALSE) {
   while (($data = fgetcsv($handle)) !== FALSE) {
     $num = count($data);
     $this_entry = "";
@@ -86,20 +120,20 @@ if (($handle = fopen("content/directory.csv", "r")) !== FALSE) {
       //we have a single entry 
       //determine $column_x
       //are we on an odd page
-      $column_x = 0;
-      if($content_fpage_number % 2 == 0){ 
-        //even fpage number we are the left hand side of paper page
-        $column_x = $side_margins + ($column_width * ($current_column - 1));
-      } 
-      else{ 
-        //we are on the right hand side of paaper page 
-        $column_x = ($paper_width / 2) + ($middle_margin /2) + ($column_width * ($current_column - 1));
-      } 
-      $column_y = $top_margin;
+      $xy = get_xy($dir_fpage_number,$current_column );
+      // $column_x = 0;
+      // if($dir_fpage_number % 2 == 0){ 
+      //   //even fpage number we are the left hand side of paper page
+      //   $column_x = $side_margins + ($column_width * ($current_column - 1));
+      // }else{ 
+      //   //we are on the right hand side of paaper page 
+      //   $column_x = ($paper_width / 2) + ($middle_margin /2) + ($column_width * ($current_column - 1));
+      // } 
+      // $column_y = $top_margin;
       
       $start_page = $trial_pdf->getPage();
       $trial_pdf->startTransaction();
-      $trial_pdf->MultiCell($column_width, 1, $this_entry , 0, 'J', 0, 2, $column_x, '', true , 0, true, true, 0, 'T', true);
+      $trial_pdf->MultiCell($column_width, 1, $this_entry , 0, 'J', 0, 2, $xy[0], '', true , 0, true, true, 0, 'T', true);
 		  $end_page = $trial_pdf->getPage();
       
       // check if we went over the edge of the pages
@@ -115,15 +149,15 @@ if (($handle = fopen("content/directory.csv", "r")) !== FALSE) {
   			$column_data = array();
   			if($current_column > $columns_per_page){ //last column on the page 
   				//add $page_data to $dir_data
-          $dir_data[$content_fpage_number] = $page_data;
+          $dir_data[$dir_fpage_number] = $page_data;
           //reset $page_data
           $page_data = array();
                     
           $current_column = 1;
           //new fpage 
-          $content_fpage_number++;
+          $dir_fpage_number++;
           //if next fpage is even, next fpage is on next paper page 
-          if($content_fpage_number % 2 == 0){ 
+          if($dir_fpage_number % 2 == 0){ 
             //even fpage number, we need a new paper page
             $trial_pdf->AddPage();
             
@@ -133,7 +167,7 @@ if (($handle = fopen("content/directory.csv", "r")) !== FALSE) {
   			}//end of if($current_column > $columns_per_page){
   			
         //reset X and Y to next column 
-        if($content_fpage_number % 2 == 0){ 
+        if($dir_fpage_number % 2 == 0){ 
           //even fpage number we are the left hand side of paper page
           $column_x = $side_margins + ($column_width * ($current_column - 1));
         } 
@@ -163,23 +197,27 @@ if (($handle = fopen("content/directory.csv", "r")) !== FALSE) {
   if(sizeof($column_data) > 0){
     //we need to add column data to page, add page data to dirdata 
     $page_data[$current_column] = $column_data;
-    $dir_data[$content_fpage_number] = $page_data;
+    $dir_data[$dir_fpage_number] = $page_data;
     //note, last column is not on pdf 
   }
   
   
   echo "total number of rows: " . $row . "\n";
   fclose($handle);
-  //ob_end_clean();
-   $trial_pdf->Output(__DIR__."/phone_list_".date('d-M-Y-H-s').".pdf", 'F');
-  //$trial_pdf->Output('phone_list.pdf', 'F');
-  write_log($dir_data);
+  
+  //actually make the trial pdf
+  //$trial_pdf->Output($content_directory . "trial-phone_list_".date('d-M-Y-H-s').".pdf", 'F');
+
+  //write_log($dir_data);
+  $dir_pages = $dir_fpage_number;
+  write_log("dir folded pages total" . $dir_pages);
 }
 
 
 $content_fpages = $pre_pages + $dir_pages + $post_pages; 
 $pieces_of_paper = ceil($content_fpages / 4);
 $total_fpages = $pieces_of_paper * 4;
+$printed_pages = $pieces_of_paper * 2;
 $notes_fpages = $total_fpages - $content_fpages;
 
 
@@ -189,25 +227,120 @@ echo "pieces of paper =" . $pieces_of_paper . "\n";
 echo "total folded pages = " . $total_fpages . "\n";
 echo "notes pages= " . $notes_fpages . "\n";
 
-/*
-$row = 1;
-if (($handle = fopen("content/directory.csv", "r")) !== FALSE) {
-  while (($data = fgetcsv($handle)) !== FALSE) {
-    $num = count($data);
-    //echo "<p> $num fields in line $row: <br /></p>\n";
-    if($row > 1){
-      for ($c=0; $c < $num; $c++) {
-          if ($data[$c] !== ""){
-            echo $data[$c] . "\n";
-          }
-          
+
+// ---------------------------------------------------------------------
+//               Figure printing page order
+// ---------------------------------------------------------------------
+
+
+
+
+//first let's put all the pages in order, then we can resort 
+$fpage_pointers_in_order = array();
+$folded_page_number = 1;
+//add pre pages
+for ($x = 1; $x <= $pre_pages; $x++) {
+  $fpage_pointers_in_order[] = array("pre" => $x , "pagenum" > $folded_page_number++);
+}
+
+//add directory data
+foreach ($dir_data as $each_dir_page) {
+  $fpage_pointers_in_order[] = array("dir" => $each_dir_page, "pagenum" > $folded_page_number++);
+}
+
+//add notes pages
+for ($x = 1; $x <= $notes_fpages; $x++) {
+  $fpage_pointers_in_order[] = array("notes" => $x, "pagenum" > $folded_page_number++);
+}
+
+//add post pages
+for ($x = 1; $x <= $post_pages; $x++) {
+  $fpage_pointers_in_order[] = array("post" => $x , "pagenum" > $folded_page_number++);
+}
+
+//  now to resort into printing order 
+//let's make a fpage array 
+$ordered_pages = array();
+//odd printed page numbers are "last -n, first +n", even page numbers are "first +n, last -n"
+
+for ($x = 1; $x <= $printed_pages; $x++) {
+  if($x % 2 == 0){
+    //even page number ,"first +n, last -n"
+    $ordered_pages[] = array_shift($fpage_pointers_in_order); //first entry in current array 
+    $ordered_pages[] = array_pop($fpage_pointers_in_order); //last entry in current array
+  }else{
+    //odd page number  "last -n, first +n"
+    $ordered_pages[] = array_pop($fpage_pointers_in_order); //last entry in current array
+    $ordered_pages[] = array_shift($fpage_pointers_in_order); //first entry in current array 
+  }
+}
+
+
+// ------------------------------------------------------------------------
+//                      Make the PDF 
+// ------------------------------------------------------------------------
+
+$pageLayout = array($paper_width, $paper_height);
+$pdf = new MYPDF("", PDF_UNIT, $pageLayout, true, 'UTF-8', false);
+$pdf->SetFont('helvetica', '', $font_size);
+$pdf->SetMargins($side_margins, $top_margin, $side_margins, true);
+$pdf->SetAutoPageBreak(TRUE, $bottom_margin);
+$pdf->AddPage();
+
+$fpage_counter = 0;
+foreach ($ordered_pages as $ordered_page) {
+  //if this $fpage_counter is even, we need a new ldap_control_paged_result
+  if($fpage_counter %2 == 0 && $fpage_counter > 0){
+    $pdf->AddPage();
+  }
+  
+  $page_html = "";
+  $page_dir_array = array();
+  if(array_key_exists("pre",$ordered_page )){
+    //pre page 
+    $page_html = file_get_contents($content_directory . "pre" . $ordered_page["pre"] . ".html");
+  }elseif(array_key_exists("post",$ordered_page )){
+    // write_log("--------------ordered page that contains post---------------");
+    // write_log($ordered_page);
+    // write_log("--------------ordered page['post']--------------");
+    // write_log($ordered_page["post"]);
+    $page_html = file_get_contents($content_directory . "post" . $ordered_page["post"] . ".html");
+  }elseif(array_key_exists("notes",$ordered_page )){
+    $page_html = file_get_contents($content_directory . "notes.html");
+  }elseif(array_key_exists("dir",$ordered_page )){
+    $page_dir_array = $ordered_page["dir"];  
+  }else{
+    write_log("something went wrong, we don't know what type of page this is");
+  }
+  
+  
+  
+  if($page_html !== ""){
+    $xy = get_xy($fpage_counter, 1);
+    $pdf->MultiCell($html_page_width, 1, $page_html , 0, 'J', 0, 2, $xy[0], $xy[1], true , 0, true, true, 0, 'T', true);
+  }else{
+    //directory page 
+    $column_number = 1;
+    
+    foreach ($page_dir_array as $each_column) {
+      $xy = get_xy($fpage_counter, $column_number);
+      $pdf->SetXY($xy[0],$xy[1], true);
+      foreach($each_column as $each_dir_entry){
+        $pdf->MultiCell($column_width, 1, $each_dir_entry , 0, 'J', 0, 2, $xy[0], '', true , 0, true, true, 0, 'T', true);
+  		  
+        
       }
+      $column_number++;
+      
     }
     
-    echo "\n";
-    $row++;
-  }
-  echo "total number of rows: " . $row . "\n";
-  fclose($handle);
+    
+    
+  }//end of if/else for   if($page_html !== ""){
+  
+  
+  
+  $fpage_counter++;
 }
-*/
+
+  $pdf->Output($content_directory . "phone_list_".date('d-M-Y-H-s').".pdf", 'F');
