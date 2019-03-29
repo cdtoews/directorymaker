@@ -143,17 +143,32 @@ $dir_data = array();// array of pages => array of columns => array of entries
 $page_data = array();
 $column_data = array();
 //now we will loop through directory and put into pages/columns 
+
+//need to read request variable here
+$full_csv = $_REQUEST['directory_csv'];
+
+$csvrowsarray = explode("\n", $full_csv);
+// echo "full_csv:<br>";
+// print_r($full_csv);
+// echo "<br><br><br>====================================================rows array:<br>";
+// print_r($csvrowsarray);
+// exit;
+
+
 $row = 1;
-if (($handle = fopen($content_directory . "directory.csv", "r")) !== FALSE) {
-  while (($data = fgetcsv($handle)) !== FALSE) {
-    $num = count($data);
+if (sizeof($csvrowsarray ) > 0) {
+  foreach ($csvrowsarray as $csvrow)  {
+    
     $this_entry = "";
     if($row > 1){ //ignore the first row of headers 
-      for ($c=0; $c < $num; $c++) { //ignore blank cells 
-          if ($data[$c] !== ""){
-            $this_entry .= $data[$c] . $carriage_return;
-          }
+      $rowarray = str_getcsv($csvrow);
+      foreach ($rowarray as $each_cell) {
+        if($each_cell !== ""){
+          // echo $each_cell . "<br>";
+          $this_entry .= $each_cell . $carriage_return;
+        }
       }
+    
       
       $xy = get_xy($dir_fpage_number,$current_column );
     
@@ -218,8 +233,7 @@ if (($handle = fopen($content_directory . "directory.csv", "r")) !== FALSE) {
   
   }
   
-  //close the csv 
-  fclose($handle);
+
   
   //actually make the trial pdf
   //$trial_pdf->Output($content_directory . "trial-phone_list_".date('d-M-Y-H-s').".pdf", 'F');

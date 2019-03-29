@@ -11,7 +11,6 @@ function showhide(id) {
 }
 
 
- var notes = <?php echo json_encode(file_get_contents("samples/notes.html")); ?>;
 
  var samples = {
    "notes": <?php echo json_encode(file_get_contents("samples/notes.html")); ?>,
