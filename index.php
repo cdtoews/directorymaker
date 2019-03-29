@@ -183,7 +183,7 @@ notes, pre1, pre2, post1 to get</font><font size="+3"><br>
 <td>   <label class="col-md-4 control-label" >Directory CSV</label>
 <br><button  type=button onclick="loaddata('contacts','directory_csv')">Load Sample Data</button></td>
 <td>  <div class="col-md-4">                    
-    <textarea  class="form-control" id="directory_csv" name="directory_csv"  rows="20" cols="70"></textarea>
+    <textarea  class="form-control" id="directory_csv" name="directory_csv"  rows="20" cols="100"></textarea>
   </div></div></td></tr>
 
 
@@ -202,7 +202,7 @@ notes, pre1, pre2, post1 to get</font><font size="+3"><br>
 <br><button  type=button onclick="loaddata('notes','notes_text')">Load Sample Data</button>
 </td>
 <td>  <div class="col-md-4">                    
-    <textarea  class="form-control" id="notes_text" name="notes_text"  rows="20" cols="70"></textarea>
+    <textarea  class="form-control" id="notes_text" name="notes_text"  rows="20" cols="100"></textarea>
   </div></div></td></tr>
 
 
@@ -230,7 +230,7 @@ notes, pre1, pre2, post1 to get</font><font size="+3"><br>
   <label class="col-md-4 control-label" for="pre1">Pre 1 HTML</label>
 <br><button  type=button onclick="loaddata('pre1','pre1_text')">Load Sample Data</button></td>
 <td>  <div class="col-md-4">                     
-    <textarea  class="form-control" id="pre1_text" name="pre1_text"  rows="20" cols="70"></textarea>
+    <textarea  class="form-control" id="pre1_text" name="pre1_text"  rows="20" cols="100"></textarea>
   </div>
 </div></td>
 </tr>
@@ -251,7 +251,7 @@ notes, pre1, pre2, post1 to get</font><font size="+3"><br>
 <td>   <label class="col-md-4 control-label" for="pre2">Pre 2 HTML</label>
 <br><button  type=button onclick="loaddata('pre2','pre2_text')">Load Sample Data</button></td>
 <td>  <div class="col-md-4">                    
-    <textarea  class="form-control" id="pre2_text" name="pre2_text"  rows="20" cols="70"></textarea>
+    <textarea  class="form-control" id="pre2_text" name="pre2_text"  rows="20" cols="100"></textarea>
   </div></div></td></tr>
 
 
@@ -269,7 +269,7 @@ notes, pre1, pre2, post1 to get</font><font size="+3"><br>
   <tr style="display:none" id="pre3_tr"><div class="form-group">
   <td>   <label class="col-md-4 control-label" for="pre2">Pre 3 HTML</label></td>
   <td>  <div class="col-md-4">                    
-      <textarea  class="form-control" id="pre3_text" name="pre3_text"  rows="20" cols="70"></textarea>
+      <textarea  class="form-control" id="pre3_text" name="pre3_text"  rows="20" cols="100"></textarea>
     </div></div></td></tr>
 
     
@@ -296,7 +296,7 @@ notes, pre1, pre2, post1 to get</font><font size="+3"><br>
       <label class="col-md-4 control-label" for="post1">Post 1 HTML</label>
     <br><button  type=button onclick="loaddata('post1','post1_text')">Load Sample Data</button></td>
     <td>  <div class="col-md-4">                     
-        <textarea  class="form-control" id="post1_text" name="post1_text"  rows="20" cols="70"></textarea>
+        <textarea  class="form-control" id="post1_text" name="post1_text"  rows="20" cols="100"></textarea>
       </div>
     </div></td>
     </tr>
@@ -316,7 +316,7 @@ notes, pre1, pre2, post1 to get</font><font size="+3"><br>
     <tr style="display:none" id="post2_tr"><div class="form-group">
     <td>   <label class="col-md-4 control-label" for="post2">Post 2 HTML</label></td>
     <td>  <div class="col-md-4">                    
-        <textarea  class="form-control" id="post2_text" name="post2_text"  rows="20" cols="70"></textarea>
+        <textarea  class="form-control" id="post2_text" name="post2_text"  rows="20" cols="100"></textarea>
       </div></div></td></tr>
 
 
@@ -334,7 +334,7 @@ notes, pre1, pre2, post1 to get</font><font size="+3"><br>
       <tr style="display:none" id="post3_tr"><div class="form-group">
       <td>   <label class="col-md-4 control-label" for="post2">Post 3 HTML</label></td>
       <td>  <div class="col-md-4">                    
-          <textarea  class="form-control" id="post3_text" name="post3_text"  rows="20" cols="70"></textarea>
+          <textarea  class="form-control" id="post3_text" name="post3_text"  rows="20" cols="100"></textarea>
         </div></div></td></tr>
 
 
