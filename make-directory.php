@@ -1,5 +1,5 @@
 <?php 
-// Check if the form is submitted
+
 $mm_conv = 25.4; // mm per inch 
 
 if ( ! isset( $_POST['submit'] ) ) {
@@ -7,72 +7,26 @@ if ( ! isset( $_POST['submit'] ) ) {
   exit;
 }
 
+if ( ! function_exists('scrub_text')) {
+   function scrub_text ( $text )  {
+      //clean bad stuff from user-entered data
+      //never trust those pesky humans!!!
+      $bad_things = array('<(\s?)(/?)(\s?)script>');
+
+      foreach ($bad_things as $bad_thing) {
+        $text = preg_replace($bad_thing, "", $text);
+      }
+      return $text;
+   }
+}
+
+
 //need to read request variable here
-$full_csv = $_REQUEST['directory_csv'];
+$full_csv = scrub_text($_REQUEST['directory_csv']);
 if($full_csv == ""){
   echo "<h1>You have to give me some data to work with here...</h1><br> Fly, you fools!";
   exit;
 }
-
-//assume here that we have a post submission
-$columns_per_page = $_REQUEST['columns_per_page'];//2;
-$font_size = $_REQUEST['font_size'];//8;
-
-$side_margins =  $_REQUEST['side_margins'] * $mm_conv;//.75
-$top_margin = $_REQUEST['top_margin']  * $mm_conv;//.5
-$bottom_margin = $_REQUEST['bottom_margin'] * $mm_conv;//.25
-$middle_margin = $_REQUEST['middle_margin'] * $mm_conv;//1.25
-$paper_width = $_REQUEST['paper_width'] * $mm_conv;//11
-$paper_height = $_REQUEST['paper_height'] * $mm_conv;//8.5
-
-$notes_text = "";
-$pre1_text = "";
-$pre2_text = "";
-$pre3_text = "";
-$post1_text = "";
-$post2_text = "";
-$post3_text = "";
-
-
-
-if ($_REQUEST['notes_check'] == 1){
-  $notes_text = $_REQUEST['notes_text'];
-}
-
-$pre_htmls = array();
-$pre_prefixes = array('pre1', 'pre2', 'pre3');
-
-foreach ($pre_prefixes as $pre) {
-  if ($_REQUEST[$pre . '_check'] == 1){
-    $pre_htmls[] = $_REQUEST[$pre . '_text'];
-  }
-}
-$pre_pages = sizeof($pre_htmls);
-
-$post_htmls = array();
-$post_prefixes = array('post1', 'post2', 'post3');
-
-foreach ($post_prefixes as $post) {
-  if ($_REQUEST[$post . '_check'] == 1){
-    $post_htmls[] = $_REQUEST[$post . '_text'];
-  }
-}
-$post_pages = sizeof($post_htmls);
-
-
-require_once('vendor/autoload.php');
-$content_directory = __DIR__."/content/";
-$entry_font_name = $_REQUEST['entry_font_name'];//courier times helvetica
-
-
-
-
-$page_height = $paper_height;
-$page_width = $paper_width / 2 ;
-$carriage_return = "<br>"; 
-
-$column_width = ($paper_width - ($side_margins * 2) - $middle_margin) / ($columns_per_page * 2);
-$html_page_width = ($paper_width - ($side_margins * 2) - $middle_margin) / 2;
 
 if ( ! function_exists('write_log')) {
    function write_log ( $log )  {
@@ -98,6 +52,75 @@ if ( ! function_exists('get_xy')) {
      return array($column_x, $column_y);
    }
 }
+
+
+
+
+//assume here that we have a post submission
+$columns_per_page = scrub_text($_REQUEST['columns_per_page']);//2;
+$font_size = scrub_text($_REQUEST['font_size']);//8;
+
+$side_margins =  scrub_text($_REQUEST['side_margins']) * $mm_conv;//.75
+$top_margin = scrub_text($_REQUEST['top_margin'])  * $mm_conv;//.5
+$bottom_margin =scrub_text( $_REQUEST['bottom_margin']) * $mm_conv;//.25
+$middle_margin = scrub_text($_REQUEST['middle_margin']) * $mm_conv;//1.25
+$paper_width = scrub_text($_REQUEST['paper_width']) * $mm_conv;//11
+$paper_height = scrub_text($_REQUEST['paper_height']) * $mm_conv;//8.5
+
+$notes_text = "";
+$pre1_text = "";
+$pre2_text = "";
+$pre3_text = "";
+$post1_text = "";
+$post2_text = "";
+$post3_text = "";
+
+
+
+if ($_REQUEST['notes_check'] == 1){
+  $notes_text = scrub_text($_REQUEST['notes_text']);
+}
+
+$pre_htmls = array();
+$pre_prefixes = array('pre1', 'pre2', 'pre3');
+
+foreach ($pre_prefixes as $pre) {
+  if ($_REQUEST[$pre . '_check'] == 1){
+    $pre_htmls[] = scrub_text($_REQUEST[$pre . '_text']);
+  }
+}
+$pre_pages = sizeof($pre_htmls);
+
+$post_htmls = array();
+$post_prefixes = array('post1', 'post2', 'post3');
+
+foreach ($post_prefixes as $post) {
+  if ($_REQUEST[$post . '_check'] == 1){
+    $post_htmls[] = scrub_text($_REQUEST[$post . '_text']);
+  }
+}
+$post_pages = sizeof($post_htmls);
+
+
+require_once('vendor/autoload.php');
+$content_directory = __DIR__."/content/";
+$entry_font_name = scrub_text($_REQUEST['entry_font_name']);//courier times helvetica
+
+
+
+
+$page_height = $paper_height;
+$page_width = $paper_width / 2 ;
+$carriage_return = "<br>"; 
+$first_line_decorator_pre = "<hr><b>";
+$first_line_decorator_post = "</b>";
+$entry_decorator_pre = "";
+$entry_decorator_post = "";
+$between_entries_html = "";
+
+$column_width = ($paper_width - ($side_margins * 2) - $middle_margin) / ($columns_per_page * 2);
+$html_page_width = ($paper_width - ($side_margins * 2) - $middle_margin) / 2;
+
 
 
 class MYPDF extends TCPDF {
@@ -127,21 +150,11 @@ $trial_pdf->AddPage();
 $current_column = 1;
 $dir_fpage_number = 1; //if this is odd, we are on the right hand side 
 
-
 $dir_data = array();// array of pages => array of columns => array of entries
 $page_data = array();
 $column_data = array();
-//now we will loop through directory and put into pages/columns 
-
-
 
 $csvrowsarray = explode("\n", $full_csv);
-// echo "full_csv:<br>";
-// print_r($full_csv);
-// echo "<br><br><br>====================================================rows array:<br>";
-// print_r($csvrowsarray);
-// exit;
-
 
 $row = 1;
 if (sizeof($csvrowsarray ) > 0) {
@@ -150,11 +163,18 @@ if (sizeof($csvrowsarray ) > 0) {
     $this_entry = "";
     if($row > 1){ //ignore the first row of headers 
       $rowarray = str_getcsv($csvrow);
+      $c = 1;
       foreach ($rowarray as $each_cell) {
         if($each_cell !== ""){
-          // echo $each_cell . "<br>";
-          $this_entry .= $each_cell . $carriage_return;
+          if($c == 1){
+            $this_entry .= $between_entries_html;
+            $this_entry .= $first_line_decorator_pre.   $each_cell . $first_line_decorator_post . $carriage_return;
+          }else{
+            $this_entry .= $entry_decorator_pre . $each_cell . $entry_decorator_post . $carriage_return;
+          }
+          
         }
+        $c++;
       }
     
       
@@ -297,6 +317,10 @@ for ($x = 1; $x <= $printed_pages; $x++) {
 
 $pageLayout = array($paper_width, $paper_height);
 $pdf = new MYPDF("", PDF_UNIT, $pageLayout, true, 'UTF-8', false);
+// set document information
+$pdf->SetCreator("http://directory.yourtechguys.info");
+$pdf->SetTitle('Phone List');
+$pdf->SetSubject('Phone List');
 $pdf->SetFont($entry_font_name, '', $font_size);
 $pdf->SetMargins($side_margins, $top_margin, $side_margins, true);
 $pdf->SetAutoPageBreak(TRUE, $bottom_margin);
