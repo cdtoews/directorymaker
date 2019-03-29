@@ -7,6 +7,13 @@ if ( ! isset( $_POST['submit'] ) ) {
   exit;
 }
 
+//need to read request variable here
+$full_csv = $_REQUEST['directory_csv'];
+if($full_csv == ""){
+  echo "<h1>You have to give me some data to work with here...</h1><br> Fly, you fools!";
+  exit;
+}
+
 //assume here that we have a post submission
 $columns_per_page = $_REQUEST['columns_per_page'];//2;
 $font_size = $_REQUEST['font_size'];//8;
@@ -92,24 +99,6 @@ if ( ! function_exists('get_xy')) {
    }
 }
 
-// //pre and post pages are content/pre1.html, pre2.html ...|  post1.html, post2.html...
-// //let's find number of pre pages 
-// $pre_pages = 0;
-// while(true){
-//   if(!file_exists($content_directory .  "pre" . ($pre_pages + 1) . ".html")){
-//     break;
-//   }
-//   $pre_pages++;
-// }
-
-// //find number of post pages 
-// $post_pages = 0;
-// while(true){
-//   if(!file_exists($content_directory . "post" . ($post_pages + 1) . ".html")){
-//     break;
-//   }
-//   $post_pages++;
-// }
 
 class MYPDF extends TCPDF {
 		//Page header
@@ -144,8 +133,7 @@ $page_data = array();
 $column_data = array();
 //now we will loop through directory and put into pages/columns 
 
-//need to read request variable here
-$full_csv = $_REQUEST['directory_csv'];
+
 
 $csvrowsarray = explode("\n", $full_csv);
 // echo "full_csv:<br>";

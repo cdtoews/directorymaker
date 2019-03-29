@@ -1,3 +1,11 @@
+<html>
+<head>
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Church Directory Maker</title>
+
+
+
 <script>
 function showhide(id) {
 
@@ -29,8 +37,14 @@ function loaddata(filename,textid){
 
 
 </script>
-
-
+</head>
+<body>
+ <div align="center"><br>
+<b><font size="-1">use defaults and sample data in directory,
+notes, pre1, pre2, post1 to get</font><font size="+3"><br>
+<a href="sample-directory.pdf">This Sample output</a></font></b> <br>
+<a href="#directions">Directions</a>
+</div>
 
 
 <form class="form-horizontal" action="/make-directory.php" method="post">
@@ -198,7 +212,7 @@ function loaddata(filename,textid){
 <!-- Checkbox pre1 -->
 <tr><div class="form-group">
 <td> 
-  <label class="col-md-4 control-label" >Enable Pre<br>Page 1</label></td>
+  <label class="col-md-4 control-label" >Enable Pre 1</label></td>
 <td>  <div class="col-md-4">
   <div class="checkbox">
     <label for="pre1_enable-0">
@@ -225,7 +239,7 @@ function loaddata(filename,textid){
 
 <!-- Checkbox pre 2 -->
 <tr><div class="form-group">
-<td>   <label class="col-md-4 control-label" for="pre2_enable">Enable Pre<br>Page 2</label></td>
+<td>   <label class="col-md-4 control-label" for="pre2_enable">Enable Pre 2</label></td>
 <td>  <div class="col-md-4">  <div class="checkbox">
     <label for="pre1_enable-0">
       <input type="checkbox" name="pre2_check" id="pre2_check" value="1" onclick="showhide('pre2')">
@@ -244,7 +258,7 @@ function loaddata(filename,textid){
   
   <!-- Checkbox pre  3 -->
   <tr><div class="form-group">
-  <td>   <label class="col-md-4 control-label" for="pre3_enable">Enable Pre<br>Page 3</label></td>
+  <td>   <label class="col-md-4 control-label" for="pre3_enable">Enable Pre 3</label></td>
   <td>  <div class="col-md-4">  <div class="checkbox">
       <label for="pre1_enable-0">
         <input type="checkbox" name="pre3_check" id="pre3_check" value="1" onclick="showhide('pre3')">
@@ -264,7 +278,7 @@ function loaddata(filename,textid){
     <!-- Checkbox POST -->
     <tr><div class="form-group">
     <td> 
-      <label class="col-md-4 control-label" for="post1_enable">Enable Post<br>Page 1</label></td>
+      <label class="col-md-4 control-label" for="post1_enable">Enable Post 1</label></td>
     <td>  <div class="col-md-4">
       <div class="checkbox">
         <label for="post1_enable-0">
@@ -291,7 +305,7 @@ function loaddata(filename,textid){
 
     <!-- Checkbox POST 2 -->
     <tr><div class="form-group">
-    <td>   <label class="col-md-4 control-label" for="post2_enable">Enable Post<br>Page 2</label></td>
+    <td>   <label class="col-md-4 control-label" for="post2_enable">Enable Post 2</label></td>
     <td>  <div class="col-md-4">  <div class="checkbox">
         <label for="post1_enable-0">
           <input type="checkbox" name="post2_check" id="post2_check" value="1" onclick="showhide('post2')">
@@ -309,7 +323,7 @@ function loaddata(filename,textid){
       
       <!-- Checkbox POST  3 -->
       <tr><div class="form-group">
-      <td>   <label class="col-md-4 control-label" for="post3_enable">Enable Post<br>Page 3</label></td>
+      <td>   <label class="col-md-4 control-label" for="post3_enable">Enable Post 3</label></td>
       <td>  <div class="col-md-4">  <div class="checkbox">
           <label for="post1_enable-0">
             <input type="checkbox" name="post3_check" id="post3_check" value="1" onclick="showhide('post3')">
@@ -352,6 +366,223 @@ and loading sample data for <br>
 </ul>
 <p>You will end up with <a href="sample-directory.pdf">THIS</a> pdf<br>
 </p>
+
+<!--            DIRECTIONS                 -->
+
+<div id="directions" align="left">
+<h1>&nbsp;&nbsp; Directions</h1>
+<p><b>Why I made this:</b><br>
+Printing phone directories is a pain. I got pulled into helping<br>
+with my churches phone directory printing. It was a word<br>
+doc and when a new name was added, names after it had<br>
+to be shifted. This was painful.<br>
+</p>
+<p><b>Pages:</b><br>
+The assumption of this utility is that you want to fold pieces
+of paper<br>
+in half, and staple them together to make a booklet. You may
+want<br>
+a page or two prior to your directory, like a cover page, and
+maybe<br>
+some church info, or birthdays, or whatever. And you may want
+some <br>
+pages at the end for a back cover, or anything else. You may
+also end<br>
+up with extra space, since each piece of paper is 4 folded
+pages. That's <br>
+where the notes.html is used if necessary.<br>
+</p>
+<p><b>Page Printing Layout:<br>
+</b>Let's assume you had a cover page (pre1), and a inside back
+cover<br>
+page (post1), and a back cover(post2), and 6 pages of entries.
+You would<br>
+get a PDF that was 6 pages long, and when printed double sided
+(flipped<br>
+on long edge), you'd get 3 pieces of paper with pages layed out
+like below:<br>
+</p>
+<table width="100%" border="1" cellspacing="2" cellpadding="2">
+<tbody>
+<tr>
+<td valign="top" align="center">Piece of paper 1<br>
+<table width="100%" border="1" cellspacing="2"
+cellpadding="2">
+<tbody>
+<tr>
+<td valign="top">Page 12<br>
+(back cover)<br>
+</td>
+<td valign="top">Page 1 <br>
+front cover<br>
+(pre1)<br>
+</td>
+</tr>
+<tr>
+<td valign="top">page 2<br>
+(entries)<br>
+</td>
+<td valign="top">page 11<br>
+inside back cover<br>
+&nbsp;(post2)<br>
+</td>
+</tr>
+</tbody>
+</table>
+<br>
+</td>
+<td valign="top">Piece of paper 2<br>
+<table width="100%" border="1" cellspacing="2"
+cellpadding="2">
+<tbody>
+<tr>
+<td valign="top">page 10<br>
+(notes)<br>
+</td>
+<td valign="top">page 3<br>
+(entries)<br>
+</td>
+</tr>
+<tr>
+<td valign="top">page 4 <br>
+(entries)<br>
+</td>
+<td valign="top">page 9<br>
+(notes)<br>
+</td>
+</tr>
+</tbody>
+</table>
+<br>
+</td>
+<td valign="top">Piece of paper 3<br>
+<table width="100%" border="1" cellspacing="2"
+cellpadding="2">
+<tbody>
+<tr>
+<td valign="top">page 8<br>
+&nbsp;(notes)<br>
+</td>
+<td valign="top">page 5 <br>
+(entries)<br>
+</td>
+</tr>
+<tr>
+<td valign="top">page 6<br>
+&nbsp;(entries)<br>
+</td>
+<td valign="top">page 7<br>
+&nbsp;(entries)</td>
+</tr>
+</tbody>
+</table>
+<br>
+</td>
+</tr>
+</tbody>
+</table>
+<p><br>
+</p>
+<p><b>How to prep your data:</b><br>
+Just put it all into a CSV file. this can be done from Excel,<br>
+or a google sheet. Each row needs to be an entry, and each<br>
+cell will be a row in that entries text in the directory. Empty
+<br>
+cells are ignored, and the first row is ignored since it is<br>
+normally headers<br>
+</p>
+<p><b>Example:<br>
+</b>The following CSV:<b><br>
+</b></p>
+<table border="1" cellspacing="2" cellpadding="2">
+<tbody>
+<tr>
+<td valign="top">Name<br>
+</td>
+<td valign="top">Address<br>
+</td>
+<td valign="top">Home Phone<br>
+</td>
+<td valign="top">Cell Phone<br>
+</td>
+<td valign="top">Email<br>
+</td>
+</tr>
+<tr>
+<td valign="top">Smith, John &amp; Jen<br>
+</td>
+<td valign="top">2 Main St . East Cupcake<br>
+</td>
+<td valign="top"><br>
+</td>
+<td valign="top">555-888-9999<br>
+</td>
+<td valign="top"><br>
+</td>
+</tr>
+<tr>
+<td valign="top">Jones, Jerry &amp; Joan<br>
+</td>
+<td valign="top">5 Elm Ave, West Somewhere<br>
+</td>
+<td valign="top">555-777-5252<br>
+</td>
+<td valign="top"><br>
+</td>
+<td valign="top">joneseses@gmail.com<br>
+</td>
+</tr>
+<tr>
+<td valign="top">Franklin, Jim &amp; Jan<br>
+</td>
+<td valign="top">12 Side Ave, Centerville<br>
+</td>
+<td valign="top"><br>
+</td>
+<td valign="top">555-444-3232<br>
+</td>
+<td valign="top"><br>
+</td>
+</tr>
+</tbody>
+</table>
+<p><b>Would give the following entries:</b><br>
+Smith, John &amp; Jen<br>
+2 Main St . East Cupcake<br>
+555-888-9999<br>
+</p>
+<p>Jones, Jerry &amp; Joan<br>
+5 Elm Ave, West Somewhere<br>
+555-777-5252<br>
+joneseses@gmail.com<br>
+</p>
+<p>Franklin, Jim &amp; Jan<br>
+12 Side Ave, Centerville<br>
+555-444-3232<br>
+</p>
+<p><b>Troubleshooting:</b><br>
+</p>
+<ul>
+<li>Your picture is not showing</li>
+<ul>
+<li>The PDF library I'm using doesn't seem to like if you set
+the picture size to a percentage. Change your picture width
+to a pixel value.<br>
+</li>
+</ul>
+</ul>
+<p>Please let me know if you use this, and any trouble you have
+using/understanding<br>
+and what would make this easier to use, email me at
+support@yourtechguys.info<br>
+Source code is available <a href="https://github.com/cdtoews/directorymaker">here</a><br>
+</p>
+</div>
+
+
+
+
+
 <script>
 
 showhide("notes");
@@ -363,3 +594,5 @@ showhide("post2");
 showhide("post3");
 
 </script>
+</body>
+</html>
