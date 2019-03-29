@@ -6,17 +6,36 @@
 
 <script type="text/javascript" src="http://js.nicedit.com/nicEdit-latest.js"></script> 
 <script>
-var area1;
-//<![CDATA[
-    //  bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
-//]]>
-function toggleArea1() {
+
+var notes_editor, pre1_editor, pre2_editor, post1_editor;
+
+var areas = {
+  "notes": notes_editor,
+  "pre1": pre1_editor,
+   "pre2": pre2_editor,
+     "post1": post1_editor
+};
+
+
+
+function toggleArea1(id) {
+      area1 = areas[id];
       if(!area1) {
-              area1 = new nicEditor({fullPanel : true}).panelInstance('notes_text',{hasPanel : true});
+              area1 = new nicEditor({fullPanel : true}).panelInstance(id + '_text',{hasPanel : true});
+              var loadbutton = document.getElementById(id + "_load");
+              if(loadbutton){
+                loadbutton.disabled = true;
+              }
+            
       } else {
-              area1.removeInstance('notes_text');
+              area1.removeInstance(id + '_text');
+              var loadbutton = document.getElementById(id + "_load");
+              if(loadbutton){
+                loadbutton.disabled = false;
+              }
               area1 = null;
       }
+      areas[id] = area1;
 }
 
 function showhide(id) {
@@ -210,11 +229,13 @@ notes, pre1, pre2, post1 to get</font><font size="+3"><br>
 
 <!-- Textarea notes -->
 <tr style="display:none" id="notes_tr"><div class="form-group">
-<td>   <label class="col-md-4 control-label" >Notes HTML</label>
-<br><button  type=button onclick="loaddata('notes','notes_text')">Load Sample Data</button>
-<br><button type=button onclick="toggleArea1();">Toggle  Editor</button>
+<td>   
 </td>
-<td>  <div class="col-md-4">                    
+<td> 
+  &nbsp;&nbsp;&nbsp;<label class="col-md-4 control-label" >Notes HTML</label>
+  &nbsp;&nbsp;&nbsp;<button id="notes_load"  type=button onclick="loaddata('notes','notes_text')">Load Sample Data</button>
+  &nbsp;&nbsp;&nbsp;<button type=button onclick="toggleArea1('notes');">Toggle  Editor</button>
+   <div class="col-md-4">                    
     <textarea  class="form-control" id="notes_text" name="notes_text"  rows="20" cols="100"></textarea>
   </div></div></td></tr>
 
@@ -240,9 +261,13 @@ notes, pre1, pre2, post1 to get</font><font size="+3"><br>
 <!-- Textarea pre 1-->
 <tr style="display:none" id="pre1_tr"><div class="form-group">
 <td> 
-  <label class="col-md-4 control-label" for="pre1">Pre 1 HTML</label>
-<br><button  type=button onclick="loaddata('pre1','pre1_text')">Load Sample Data</button></td>
-<td>  <div class="col-md-4">                     
+
+</td>
+<td> 
+  &nbsp;&nbsp;&nbsp;<label class="col-md-4 control-label" >Pre 1 HTML</label>
+  &nbsp;&nbsp;&nbsp;<button id="pre1_load"  type=button onclick="loaddata('pre1','pre1_text')">Load Sample Data</button>
+  &nbsp;&nbsp;&nbsp;<button type=button onclick="toggleArea1('pre1');">Toggle  Editor</button>
+   <div class="col-md-4">                     
     <textarea  class="form-control" id="pre1_text" name="pre1_text"  rows="20" cols="100"></textarea>
   </div>
 </div></td>
@@ -261,9 +286,13 @@ notes, pre1, pre2, post1 to get</font><font size="+3"><br>
 
 <!-- Textarea pre   2 -->
 <tr style="display:none" id="pre2_tr"><div class="form-group">
-<td>   <label class="col-md-4 control-label" for="pre2">Pre 2 HTML</label>
-<br><button  type=button onclick="loaddata('pre2','pre2_text')">Load Sample Data</button></td>
-<td>  <div class="col-md-4">                    
+<td>  
+</td>
+<td> 
+  &nbsp;&nbsp;&nbsp;<label class="col-md-4 control-label" >Pre 2 HTML</label>
+  &nbsp;&nbsp;&nbsp;<button id="pre2_load"  type=button onclick="loaddata('pre2','pre2_text')">Load Sample Data</button>
+  &nbsp;&nbsp;&nbsp;<button type=button onclick="toggleArea1('pre2');">Toggle  Editor</button>
+   <div class="col-md-4">                    
     <textarea  class="form-control" id="pre2_text" name="pre2_text"  rows="20" cols="100"></textarea>
   </div></div></td></tr>
 
@@ -280,8 +309,12 @@ notes, pre1, pre2, post1 to get</font><font size="+3"><br>
 
   <!-- Textarea pre   3 -->
   <tr style="display:none" id="pre3_tr"><div class="form-group">
-  <td>   <label class="col-md-4 control-label" for="pre2">Pre 3 HTML</label></td>
-  <td>  <div class="col-md-4">                    
+  <td>   <label class="col-md-4 control-label" for="pre3">Pre 3 HTML</label></td>
+  <td>  
+    &nbsp;&nbsp;&nbsp;<label class="col-md-4 control-label" >Pre 3 HTML</label>
+    
+    &nbsp;&nbsp;&nbsp;<button type=button onclick="toggleArea1('pre3');">Toggle  Editor</button>
+    <div class="col-md-4">                    
       <textarea  class="form-control" id="pre3_text" name="pre3_text"  rows="20" cols="100"></textarea>
     </div></div></td></tr>
 
@@ -305,10 +338,12 @@ notes, pre1, pre2, post1 to get</font><font size="+3"><br>
 
     <!-- Textarea POST 1-->
     <tr style="display:none" id="post1_tr"><div class="form-group">
+    <td></td>
     <td> 
-      <label class="col-md-4 control-label" for="post1">Post 1 HTML</label>
-    <br><button  type=button onclick="loaddata('post1','post1_text')">Load Sample Data</button></td>
-    <td>  <div class="col-md-4">                     
+      &nbsp;&nbsp;&nbsp;<label class="col-md-4 control-label" >Post 1 HTML</label>
+      &nbsp;&nbsp;&nbsp;<button id="post1_load"  type=button onclick="loaddata('post1','post1_text')">Load Sample Data</button>
+      &nbsp;&nbsp;&nbsp;<button type=button onclick="toggleArea1('post1');">Toggle  Editor</button>
+       <div class="col-md-4">                     
         <textarea  class="form-control" id="post1_text" name="post1_text"  rows="20" cols="100"></textarea>
       </div>
     </div></td>
@@ -327,8 +362,11 @@ notes, pre1, pre2, post1 to get</font><font size="+3"><br>
 
     <!-- Textarea POST   2 -->
     <tr style="display:none" id="post2_tr"><div class="form-group">
-    <td>   <label class="col-md-4 control-label" for="post2">Post 2 HTML</label></td>
-    <td>  <div class="col-md-4">                    
+    <td></td>
+    <td>  
+      &nbsp;&nbsp;&nbsp;<label class="col-md-4 control-label" >Post 2 HTML</label>
+      &nbsp;&nbsp;&nbsp;<button type=button onclick="toggleArea1('post2');">Toggle  Editor</button>
+      <div class="col-md-4">                    
         <textarea  class="form-control" id="post2_text" name="post2_text"  rows="20" cols="100"></textarea>
       </div></div></td></tr>
 
@@ -345,8 +383,11 @@ notes, pre1, pre2, post1 to get</font><font size="+3"><br>
 
       <!-- Textarea POST   3 -->
       <tr style="display:none" id="post3_tr"><div class="form-group">
-      <td>   <label class="col-md-4 control-label" for="post2">Post 3 HTML</label></td>
-      <td>  <div class="col-md-4">                    
+      <td>  </td>
+      <td> 
+        &nbsp;&nbsp;&nbsp;<label class="col-md-4 control-label" >Post 3 HTML</label>
+        &nbsp;&nbsp;&nbsp;<button type=button onclick="toggleArea1('post3');">Toggle  Editor</button>
+         <div class="col-md-4">                    
           <textarea  class="form-control" id="post3_text" name="post3_text"  rows="20" cols="100"></textarea>
         </div></div></td></tr>
 
