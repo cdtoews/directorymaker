@@ -1,17 +1,65 @@
 <?php 
+// Check if the form is submitted
+$mm_conv = 25.4; // mm per inch 
+
+if ( ! isset( $_POST['submit'] ) ) {
+  echo "<h1>Something went horribly wrong...</h1><br> Fly, you fools!";
+  exit;
+}
+
+//assume here that we have a post submission
+$columns_per_page = $_REQUEST['columns_per_page'];//2;
+$font_size = $_REQUEST['font_size'];//8;
+
+$side_margins =  $_REQUEST['side_margins'] * $mm_conv;//.75
+$top_margin = $_REQUEST['top_margin']  * $mm_conv;//.5
+$bottom_margin = $_REQUEST['bottom_margin'] * $mm_conv;//.25
+$middle_margin = $_REQUEST['middle_margin'] * $mm_conv;//1.25
+$paper_width = $_REQUEST['paper_width'] * $mm_conv;//11
+$paper_height = $_REQUEST['paper_height'] * $mm_conv;//8.5
+
+$notes_text = "";
+$pre1_text = "";
+$pre2_text = "";
+$pre3_text = "";
+$post1_text = "";
+$post2_text = "";
+$post3_text = "";
+
+
+
+if ($_REQUEST['notes_check'] == 1){
+  $notes_text = $_REQUEST['notes_text'];
+}
+
+$pre_htmls = array();
+$pre_prefixes = array('pre1', 'pre2', 'pre3');
+
+foreach ($pre_prefixes as $pre) {
+  if ($_REQUEST[$pre . '_check'] == 1){
+    $pre_htmls[] = $_REQUEST[$pre . '_text'];
+  }
+}
+$pre_pages = sizeof($pre_htmls);
+
+$post_htmls = array();
+$post_prefixes = array('post1', 'post2', 'post3');
+
+foreach ($post_prefixes as $post) {
+  if ($_REQUEST[$post . '_check'] == 1){
+    $post_htmls[] = $_REQUEST[$post . '_text'];
+  }
+}
+$post_pages = sizeof($post_htmls);
+
+
 require_once('vendor/autoload.php');
 $content_directory = __DIR__."/content/";
-$entry_font_name = 'helvetica';
-$columns_per_page = 2;
-$font_size = 8;
+$entry_font_name = $_REQUEST['entry_font_name'];//courier times helvetica
 
-$mm_conv = 25.4; // mm per inch 
-$side_margins = .75 * $mm_conv;
-$top_margin = .5 * $mm_conv;
-$bottom_margin = .25 * $mm_conv;
-$middle_margin = 1.25 * $mm_conv;
-$paper_width = 11 * $mm_conv;
-$paper_height = 8.5 * $mm_conv;
+
+
+
 $page_height = $paper_height;
 $page_width = $paper_width / 2 ;
 $carriage_return = "<br>"; 
@@ -44,24 +92,24 @@ if ( ! function_exists('get_xy')) {
    }
 }
 
-//pre and post pages are content/pre1.html, pre2.html ...|  post1.html, post2.html...
-//let's find number of pre pages 
-$pre_pages = 0;
-while(true){
-  if(!file_exists($content_directory .  "pre" . ($pre_pages + 1) . ".html")){
-    break;
-  }
-  $pre_pages++;
-}
+// //pre and post pages are content/pre1.html, pre2.html ...|  post1.html, post2.html...
+// //let's find number of pre pages 
+// $pre_pages = 0;
+// while(true){
+//   if(!file_exists($content_directory .  "pre" . ($pre_pages + 1) . ".html")){
+//     break;
+//   }
+//   $pre_pages++;
+// }
 
-//find number of post pages 
-$post_pages = 0;
-while(true){
-  if(!file_exists($content_directory . "post" . ($post_pages + 1) . ".html")){
-    break;
-  }
-  $post_pages++;
-}
+// //find number of post pages 
+// $post_pages = 0;
+// while(true){
+//   if(!file_exists($content_directory . "post" . ($post_pages + 1) . ".html")){
+//     break;
+//   }
+//   $post_pages++;
+// }
 
 class MYPDF extends TCPDF {
 		//Page header
@@ -203,9 +251,10 @@ $fpage_pointers_in_order = array();
 $folded_page_number = 1;
 
 //add pre pages
-for ($x = 1; $x <= $pre_pages; $x++) {
-  $fpage_pointers_in_order[] = array("pre" => $x , "pagenum" > $folded_page_number++);
-}
+foreach ($pre_htmls as $pre_html) {
+  $fpage_pointers_in_order[] = array("html" => $pre_html , "pagenum" > $folded_page_number++);
+} 
+  
 
 //add directory data
 foreach ($dir_data as $each_dir_page) {
@@ -214,13 +263,14 @@ foreach ($dir_data as $each_dir_page) {
 
 //add notes pages
 for ($x = 1; $x <= $notes_fpages; $x++) {
-  $fpage_pointers_in_order[] = array("notes" => $x, "pagenum" > $folded_page_number++);
+  $fpage_pointers_in_order[] = array("html" => $notes_text, "pagenum" > $folded_page_number++);
 }
 
 //add post pages
-for ($x = 1; $x <= $post_pages; $x++) {
-  $fpage_pointers_in_order[] = array("post" => $x , "pagenum" > $folded_page_number++);
-}
+foreach ($post_htmls as $post_html) {
+  $fpage_pointers_in_order[] = array("html" => $post_html , "pagenum" > $folded_page_number++);
+} 
+
 
 //  now to resort into printing order 
 $ordered_pages = array();
@@ -259,12 +309,8 @@ foreach ($ordered_pages as $ordered_page) {
   
   $page_html = "";
   $page_dir_array = array();
-  if(array_key_exists("pre",$ordered_page )){
-    $page_html = file_get_contents($content_directory . "pre" . $ordered_page["pre"] . ".html");
-  }elseif(array_key_exists("post",$ordered_page )){
-    $page_html = file_get_contents($content_directory . "post" . $ordered_page["post"] . ".html");
-  }elseif(array_key_exists("notes",$ordered_page )){
-    $page_html = file_get_contents($content_directory . "notes.html");
+  if(array_key_exists("html",$ordered_page )){
+    $page_html = $ordered_page["html"];
   }elseif(array_key_exists("dir",$ordered_page )){
     $page_dir_array = $ordered_page["dir"];  
   }else{
@@ -291,4 +337,4 @@ foreach ($ordered_pages as $ordered_page) {
   $fpage_counter++;
 }
 
-$pdf->Output($content_directory . "phone_list_".date('d-M-Y-H-i').".pdf", 'F');
+$pdf->Output($content_directory . "phone_list_".date('d-M-Y-H-i').".pdf", 'I');
