@@ -4,9 +4,21 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <title>Church Directory Maker</title>
 
-
-
+<script type="text/javascript" src="http://js.nicedit.com/nicEdit-latest.js"></script> 
 <script>
+var area1;
+//<![CDATA[
+    //  bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
+//]]>
+function toggleArea1() {
+      if(!area1) {
+              area1 = new nicEditor({fullPanel : true}).panelInstance('notes_text',{hasPanel : true});
+      } else {
+              area1.removeInstance('notes_text');
+              area1 = null;
+      }
+}
+
 function showhide(id) {
 
   var checkBox = document.getElementById(id + "_check");
@@ -200,6 +212,7 @@ notes, pre1, pre2, post1 to get</font><font size="+3"><br>
 <tr style="display:none" id="notes_tr"><div class="form-group">
 <td>   <label class="col-md-4 control-label" >Notes HTML</label>
 <br><button  type=button onclick="loaddata('notes','notes_text')">Load Sample Data</button>
+<br><button type=button onclick="toggleArea1();">Toggle  Editor</button>
 </td>
 <td>  <div class="col-md-4">                    
     <textarea  class="form-control" id="notes_text" name="notes_text"  rows="20" cols="100"></textarea>
@@ -592,7 +605,6 @@ showhide("pre3");
 showhide("post1");
 showhide("post2");
 showhide("post3");
-
 </script>
 </body>
 </html>
