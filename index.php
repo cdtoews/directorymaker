@@ -1,6 +1,12 @@
-<html>
-<head>
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
 
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/main.css" >
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <title>Church Directory Maker</title>
 
@@ -21,7 +27,8 @@ var areas = {
 function toggleArea1(id) {
       area1 = areas[id];
       if(!area1) {
-              area1 = new nicEditor({fullPanel : true}).panelInstance(id + '_text',{hasPanel : true});
+        //{externalCSS : 'mysite.css'
+              area1 = new nicEditor({externalCSS : 'css/main.css', fullPanel : true}).panelInstance(id + '_text',{hasPanel : true});
               var loadbutton = document.getElementById(id + "_load");
               if(loadbutton){
                 loadbutton.disabled = true;
@@ -70,6 +77,8 @@ function loaddata(filename,textid){
 </script>
 </head>
 <body>
+  <div class="container">
+    
  <div align="center"><br>
 <b><font size="-1">use defaults and sample data in directory,
 notes, pre1, pre2, post1 to get</font><font size="+3"><br>
@@ -77,7 +86,7 @@ notes, pre1, pre2, post1 to get</font><font size="+3"><br>
 <a href="#directions">Directions</a>
 </div>
 
-
+<div class="">
 <form class="form-horizontal" action="/make-directory.php" method="post">
 <fieldset>
 
@@ -88,8 +97,8 @@ notes, pre1, pre2, post1 to get</font><font size="+3"><br>
 <tr>
 <tr><div class="form-group">
 
-<td>  <label class="col-md-4 control-label" for="paper_width">Paper Width</label>  </td>
-<td>  <div class="col-md-4">
+<td>  <label class=" control-label" for="paper_width">Paper Width</label>  </td>
+<td>  <div class="">
   <input id="paper_width" name="paper_width" type="text" value="11" class="form-control input-md" required=""></td>
     
   </div>
@@ -100,9 +109,9 @@ notes, pre1, pre2, post1 to get</font><font size="+3"><br>
 <!-- Text input-->
 <tr><div class="form-group">
 <td> 
-  <label class="col-md-4 control-label" for="paper_height">Paper Height</label>  </td>
+  <label class=" control-label" for="paper_height">Paper Height</label>  </td>
 <td>  
-  <div class="col-md-4">
+  <div class="">
   <input id="paper_height" name="paper_height" type="text" value="8.5" class="form-control input-md" required=""></td>
     
   </div>
@@ -112,9 +121,9 @@ notes, pre1, pre2, post1 to get</font><font size="+3"><br>
 <!-- Text input-->
 <tr><div class="form-group">
 <td> 
-  <label class="col-md-4 control-label" for="columns_per_page">Columns per page</label>  </td>
+  <label class=" control-label" for="columns_per_page">Columns per page</label>  </td>
 <td>  
-  <div class="col-md-4">
+  <div class="">
   <input id="columns_per_page" name="columns_per_page" type="text" value="2" class="form-control input-md" required=""></td>
     
   </div>
@@ -124,9 +133,9 @@ notes, pre1, pre2, post1 to get</font><font size="+3"><br>
 <!-- Multiple Radios -->
 <tr><div class="form-group">
 <td> 
-  <label class="col-md-4 control-label" for="entry_font_name">Font</label></td>
+  <label class=" control-label" for="entry_font_name">Font</label></td>
   <td>
-  <div class="col-md-4">
+  <div class="">
   <div class="radio">
     <label for="entry_font_name-0">
       <input type="radio" name="entry_font_name" id="entry_font_name-0" value="helvetica" checked="checked">
@@ -152,9 +161,9 @@ notes, pre1, pre2, post1 to get</font><font size="+3"><br>
 <!-- Text input-->
 <tr><div class="form-group">
 <td> 
-  <label class="col-md-4 control-label" for="font_size">Font Size</label>  </td>
+  <label class=" control-label" for="font_size">Font Size</label>  </td>
 <td>  
-  <div class="col-md-4">
+  <div class="">
   <input id="font_size" name="font_size" type="text" value="8" class="form-control input-md" required=""></td>
     
   </div>
@@ -164,9 +173,9 @@ notes, pre1, pre2, post1 to get</font><font size="+3"><br>
 <!-- Text input-->
 <tr><div class="form-group">
 <td> 
-  <label class="col-md-4 control-label" for="top_margin">Top Margin</label>  </td>
+  <label class=" control-label" for="top_margin">Top Margin</label>  </td>
 <td>  
-  <div class="col-md-4">
+  <div class="">
   <input id="top_margin" name="top_margin" type="text" value=".5" class="form-control input-md" required=""></td>
     
   </div>
@@ -176,9 +185,9 @@ notes, pre1, pre2, post1 to get</font><font size="+3"><br>
 <!-- Text input-->
 <tr><div class="form-group">
 <td> 
-  <label class="col-md-4 control-label" for="bottom_margin">Bottom Margin</label>  </td>
+  <label class=" control-label" for="bottom_margin">Bottom Margin</label>  </td>
 <td>  
-  <div class="col-md-4">
+  <div class="">
   <input id="bottom_margin" name="bottom_margin" type="text" value=".5" class="form-control input-md" required=""></td>
     
   </div>
@@ -188,9 +197,9 @@ notes, pre1, pre2, post1 to get</font><font size="+3"><br>
 <!-- Text input-->
 <tr><div class="form-group">
 <td> 
-  <label class="col-md-4 control-label" for="side_margins">Side Margins</label>  </td>
+  <label class=" control-label" for="side_margins">Side Margins</label>  </td>
 <td>  
-  <div class="col-md-4">
+  <div class="">
   <input id="side_margins" name="side_margins" type="text" value=".5" class="form-control input-md" required=""></td>
     
   </div>
@@ -200,9 +209,9 @@ notes, pre1, pre2, post1 to get</font><font size="+3"><br>
 <!-- Text input-->
 <tr><div class="form-group">
 <td> 
-  <label class="col-md-4 control-label" for="middle_margin">Middle Margin</label>  </td>
+  <label class=" control-label" for="middle_margin">Middle Margin</label>  </td>
 <td>  
-  <div class="col-md-4">
+  <div class="">
   <input id="middle_margin" name="middle_margin" type="text" value="1.5" class="form-control input-md" required=""></td>
     
   </div>
@@ -211,17 +220,17 @@ notes, pre1, pre2, post1 to get</font><font size="+3"><br>
 
 <!-- Textarea csv -->
 <tr><div class="form-group">
-<td>   <label class="col-md-4 control-label" >Directory CSV</label>
+<td>   <label class=" control-label" >Directory CSV</label>
 <br><button  type=button onclick="loaddata('contacts','directory_csv')">Load Sample Data</button></td>
-<td>  <div class="col-md-4">                    
+<td>  <div class="">                    
     <textarea  class="form-control" id="directory_csv" name="directory_csv"  rows="20" cols="100"></textarea>
   </div></div></td></tr>
 
 
 <!-- Checkbox notes -->
 <tr><div class="form-group">
-<td>   <label class="col-md-4 control-label" >Enable Notes<br>html page<br>for extra pages</label></td>
-<td>  <div class="col-md-4">  <div class="checkbox">
+<td>   <label class=" control-label" >Enable Notes<br>html page<br>for extra pages</label></td>
+<td>  <div class="">  <div class="checkbox">
     <label >
       <input type="checkbox" name="notes_check" id="notes_check" value="1" onclick="showhide('notes')">
     </label>	</div>  </div></div></td>
@@ -232,10 +241,10 @@ notes, pre1, pre2, post1 to get</font><font size="+3"><br>
 <td>   
 </td>
 <td> 
-  &nbsp;&nbsp;&nbsp;<label class="col-md-4 control-label" >Notes HTML</label>
+  &nbsp;&nbsp;&nbsp;<label class=" control-label" >Notes HTML</label>
   &nbsp;&nbsp;&nbsp;<button id="notes_load"  type=button onclick="loaddata('notes','notes_text')">Load Sample Data</button>
   &nbsp;&nbsp;&nbsp;<button type=button onclick="toggleArea1('notes');">Toggle  Editor</button>
-   <div class="col-md-4">                    
+   <div class="">                    
     <textarea  class="form-control" id="notes_text" name="notes_text"  rows="20" cols="100"></textarea>
   </div></div></td></tr>
 
@@ -246,8 +255,8 @@ notes, pre1, pre2, post1 to get</font><font size="+3"><br>
 <!-- Checkbox pre1 -->
 <tr><div class="form-group">
 <td> 
-  <label class="col-md-4 control-label" >Enable Pre 1</label></td>
-<td>  <div class="col-md-4">
+  <label class=" control-label" >Enable Pre 1</label></td>
+<td>  <div class="">
   <div class="checkbox">
     <label for="pre1_enable-0">
       <input type="checkbox" name="pre1_check" id="pre1_check" value="1" onclick="showhide('pre1')">
@@ -264,10 +273,10 @@ notes, pre1, pre2, post1 to get</font><font size="+3"><br>
 
 </td>
 <td> 
-  &nbsp;&nbsp;&nbsp;<label class="col-md-4 control-label" >Pre 1 HTML</label>
+  &nbsp;&nbsp;&nbsp;<label class=" control-label" >Pre 1 HTML</label>
   &nbsp;&nbsp;&nbsp;<button id="pre1_load"  type=button onclick="loaddata('pre1','pre1_text')">Load Sample Data</button>
   &nbsp;&nbsp;&nbsp;<button type=button onclick="toggleArea1('pre1');">Toggle  Editor</button>
-   <div class="col-md-4">                     
+   <div class="">                     
     <textarea  class="form-control" id="pre1_text" name="pre1_text"  rows="20" cols="100"></textarea>
   </div>
 </div></td>
@@ -277,8 +286,8 @@ notes, pre1, pre2, post1 to get</font><font size="+3"><br>
 
 <!-- Checkbox pre 2 -->
 <tr><div class="form-group">
-<td>   <label class="col-md-4 control-label" for="pre2_enable">Enable Pre 2</label></td>
-<td>  <div class="col-md-4">  <div class="checkbox">
+<td>   <label class=" control-label" for="pre2_enable">Enable Pre 2</label></td>
+<td>  <div class="">  <div class="checkbox">
     <label for="pre1_enable-0">
       <input type="checkbox" name="pre2_check" id="pre2_check" value="1" onclick="showhide('pre2')">
     </label>	</div>  </div></div></td>
@@ -289,10 +298,10 @@ notes, pre1, pre2, post1 to get</font><font size="+3"><br>
 <td>  
 </td>
 <td> 
-  &nbsp;&nbsp;&nbsp;<label class="col-md-4 control-label" >Pre 2 HTML</label>
+  &nbsp;&nbsp;&nbsp;<label class=" control-label" >Pre 2 HTML</label>
   &nbsp;&nbsp;&nbsp;<button id="pre2_load"  type=button onclick="loaddata('pre2','pre2_text')">Load Sample Data</button>
   &nbsp;&nbsp;&nbsp;<button type=button onclick="toggleArea1('pre2');">Toggle  Editor</button>
-   <div class="col-md-4">                    
+   <div class="">                    
     <textarea  class="form-control" id="pre2_text" name="pre2_text"  rows="20" cols="100"></textarea>
   </div></div></td></tr>
 
@@ -300,8 +309,8 @@ notes, pre1, pre2, post1 to get</font><font size="+3"><br>
   
   <!-- Checkbox pre  3 -->
   <tr><div class="form-group">
-  <td>   <label class="col-md-4 control-label" for="pre3_enable">Enable Pre 3</label></td>
-  <td>  <div class="col-md-4">  <div class="checkbox">
+  <td>   <label class=" control-label" for="pre3_enable">Enable Pre 3</label></td>
+  <td>  <div class="">  <div class="checkbox">
       <label for="pre1_enable-0">
         <input type="checkbox" name="pre3_check" id="pre3_check" value="1" onclick="showhide('pre3')">
       </label>	</div>  </div></div></td>
@@ -309,12 +318,12 @@ notes, pre1, pre2, post1 to get</font><font size="+3"><br>
 
   <!-- Textarea pre   3 -->
   <tr style="display:none" id="pre3_tr"><div class="form-group">
-  <td>   <label class="col-md-4 control-label" for="pre3">Pre 3 HTML</label></td>
+  <td>   <label class=" control-label" for="pre3">Pre 3 HTML</label></td>
   <td>  
-    &nbsp;&nbsp;&nbsp;<label class="col-md-4 control-label" >Pre 3 HTML</label>
+    &nbsp;&nbsp;&nbsp;<label class=" control-label" >Pre 3 HTML</label>
     
     &nbsp;&nbsp;&nbsp;<button type=button onclick="toggleArea1('pre3');">Toggle  Editor</button>
-    <div class="col-md-4">                    
+    <div class="">                    
       <textarea  class="form-control" id="pre3_text" name="pre3_text"  rows="20" cols="100"></textarea>
     </div></div></td></tr>
 
@@ -324,8 +333,8 @@ notes, pre1, pre2, post1 to get</font><font size="+3"><br>
     <!-- Checkbox POST -->
     <tr><div class="form-group">
     <td> 
-      <label class="col-md-4 control-label" for="post1_enable">Enable Post 1</label></td>
-    <td>  <div class="col-md-4">
+      <label class=" control-label" for="post1_enable">Enable Post 1</label></td>
+    <td>  <div class="">
       <div class="checkbox">
         <label for="post1_enable-0">
           <input type="checkbox" name="post1_check" id="post1_check" value="1" onclick="showhide('post1')">
@@ -340,10 +349,10 @@ notes, pre1, pre2, post1 to get</font><font size="+3"><br>
     <tr style="display:none" id="post1_tr"><div class="form-group">
     <td></td>
     <td> 
-      &nbsp;&nbsp;&nbsp;<label class="col-md-4 control-label" >Post 1 HTML</label>
+      &nbsp;&nbsp;&nbsp;<label class=" control-label" >Post 1 HTML</label>
       &nbsp;&nbsp;&nbsp;<button id="post1_load"  type=button onclick="loaddata('post1','post1_text')">Load Sample Data</button>
       &nbsp;&nbsp;&nbsp;<button type=button onclick="toggleArea1('post1');">Toggle  Editor</button>
-       <div class="col-md-4">                     
+       <div class="">                     
         <textarea  class="form-control" id="post1_text" name="post1_text"  rows="20" cols="100"></textarea>
       </div>
     </div></td>
@@ -353,8 +362,8 @@ notes, pre1, pre2, post1 to get</font><font size="+3"><br>
 
     <!-- Checkbox POST 2 -->
     <tr><div class="form-group">
-    <td>   <label class="col-md-4 control-label" for="post2_enable">Enable Post 2</label></td>
-    <td>  <div class="col-md-4">  <div class="checkbox">
+    <td>   <label class=" control-label" for="post2_enable">Enable Post 2</label></td>
+    <td>  <div class="">  <div class="checkbox">
         <label for="post1_enable-0">
           <input type="checkbox" name="post2_check" id="post2_check" value="1" onclick="showhide('post2')">
         </label>	</div>  </div></div></td>
@@ -364,9 +373,9 @@ notes, pre1, pre2, post1 to get</font><font size="+3"><br>
     <tr style="display:none" id="post2_tr"><div class="form-group">
     <td></td>
     <td>  
-      &nbsp;&nbsp;&nbsp;<label class="col-md-4 control-label" >Post 2 HTML</label>
+      &nbsp;&nbsp;&nbsp;<label class=" control-label" >Post 2 HTML</label>
       &nbsp;&nbsp;&nbsp;<button type=button onclick="toggleArea1('post2');">Toggle  Editor</button>
-      <div class="col-md-4">                    
+      <div class="">                    
         <textarea  class="form-control" id="post2_text" name="post2_text"  rows="20" cols="100"></textarea>
       </div></div></td></tr>
 
@@ -374,8 +383,8 @@ notes, pre1, pre2, post1 to get</font><font size="+3"><br>
       
       <!-- Checkbox POST  3 -->
       <tr><div class="form-group">
-      <td>   <label class="col-md-4 control-label" for="post3_enable">Enable Post 3</label></td>
-      <td>  <div class="col-md-4">  <div class="checkbox">
+      <td>   <label class=" control-label" for="post3_enable">Enable Post 3</label></td>
+      <td>  <div class="">  <div class="checkbox">
           <label for="post1_enable-0">
             <input type="checkbox" name="post3_check" id="post3_check" value="1" onclick="showhide('post3')">
           </label>	</div>  </div></div></td>
@@ -385,9 +394,9 @@ notes, pre1, pre2, post1 to get</font><font size="+3"><br>
       <tr style="display:none" id="post3_tr"><div class="form-group">
       <td>  </td>
       <td> 
-        &nbsp;&nbsp;&nbsp;<label class="col-md-4 control-label" >Post 3 HTML</label>
+        &nbsp;&nbsp;&nbsp;<label class=" control-label" >Post 3 HTML</label>
         &nbsp;&nbsp;&nbsp;<button type=button onclick="toggleArea1('post3');">Toggle  Editor</button>
-         <div class="col-md-4">                    
+         <div class="">                    
           <textarea  class="form-control" id="post3_text" name="post3_text"  rows="20" cols="100"></textarea>
         </div></div></td></tr>
 
@@ -398,7 +407,7 @@ notes, pre1, pre2, post1 to get</font><font size="+3"><br>
 <tr><div class="form-group">
 <td> 
   
-  <div class="col-md-4">
+  <div class="">
     <button id="submit" name="submit" class="btn btn-primary">Submit</button>
   </div>
 </div>
@@ -407,7 +416,8 @@ notes, pre1, pre2, post1 to get</font><font size="+3"><br>
 </table>
 </fieldset>
 </form>
-
+</div>
+<hr style="height:10px;border:none;color:#333;background-color:#333;" />
 Keeping the default values,<br>
 and loading sample data for <br>
 <ul>
@@ -636,7 +646,9 @@ Source code is available <a href="https://github.com/cdtoews/directorymaker">her
 
 
 
-
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <script>
 
 showhide("notes");
@@ -647,5 +659,6 @@ showhide("post1");
 showhide("post2");
 showhide("post3");
 </script>
+</div>
 </body>
 </html>
