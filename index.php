@@ -3,9 +3,6 @@
   <head>
     <!-- Required meta tags -->
 
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="css/main.css" >
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <title>Church Directory Maker</title>
@@ -77,7 +74,7 @@ function loaddata(filename,textid){
 </script>
 </head>
 <body>
-  <div class="container">
+
     
  <div align="center"><br>
 <b><font size="-1">use defaults and sample data in directory,
@@ -245,7 +242,7 @@ notes, pre1, pre2, post1 to get</font><font size="+3"><br>
   &nbsp;&nbsp;&nbsp;<button id="notes_load"  type=button onclick="loaddata('notes','notes_text')">Load Sample Data</button>
   &nbsp;&nbsp;&nbsp;<button type=button onclick="toggleArea1('notes');">Toggle  Editor</button>
    <div class="">                    
-    <textarea  class="form-control" id="notes_text" name="notes_text"  rows="20" cols="100"></textarea>
+    <textarea  class="form-control reset-this" id="notes_text" name="notes_text"  rows="20" cols="100"></textarea>
   </div></div></td></tr>
 
 
@@ -659,6 +656,5 @@ showhide("post1");
 showhide("post2");
 showhide("post3");
 </script>
-</div>
 </body>
 </html>
