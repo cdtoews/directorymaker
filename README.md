@@ -7,4 +7,4 @@ To use:
 Notes:
 * still under development
 * Current working version: http://directory.yourtechguys.info
-* Dev version: http://dirtest.yourtechguys.inf
+* Dev version: http://dirtest.yourtechguys.info
